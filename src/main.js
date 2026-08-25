@@ -1,4 +1,5 @@
 import { mountUserList } from './UserListPage.js';
+import { mountPlusCalculator } from './PlusCalculator.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
 
@@ -52,3 +53,6 @@ mountHealthStatus();
 
 // User list page: fetches GET /api/users and renders each user name.
 mountUserList(app);
+
+// Homepage addition calculator: POST /plus and render the sum.
+mountPlusCalculator(app);
