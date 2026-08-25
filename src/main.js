@@ -1,3 +1,5 @@
+import { mountUserList } from './UserListPage.js';
+
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
 
 const app = document.querySelector('#app');
@@ -47,3 +49,6 @@ async function mountHealthStatus() {
 }
 
 mountHealthStatus();
+
+// User list page: fetches GET /api/users and renders each user name.
+mountUserList(app);
