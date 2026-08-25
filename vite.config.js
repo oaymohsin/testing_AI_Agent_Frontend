@@ -17,6 +17,10 @@ export default defineConfig({
         target: 'http://localhost:3008',
         changeOrigin: true,
       },
+      '/minus': {
+        target: 'http://localhost:3008',
+        changeOrigin: true,
+      },
     },
   },
 });

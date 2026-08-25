@@ -1,5 +1,6 @@
 import { mountUserList } from './UserListPage.js';
 import { mountPlusCalculator } from './PlusCalculator.js';
+import { mountMinusCalculator } from './MinusCalculator.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
 
@@ -56,3 +57,6 @@ mountUserList(app);
 
 // Homepage addition calculator: POST /plus and render the sum.
 mountPlusCalculator(app);
+
+// Homepage subtraction calculator: POST /minus and render the difference.
+mountMinusCalculator(app);
