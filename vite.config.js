@@ -25,6 +25,10 @@ export default defineConfig({
         target: 'http://localhost:3008',
         changeOrigin: true,
       },
+      '/divide': {
+        target: 'http://localhost:3008',
+        changeOrigin: true,
+      },
     },
   },
 });
