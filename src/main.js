@@ -2,6 +2,7 @@ import { mountUserList } from './UserListPage.js';
 import { mountPlusCalculator } from './PlusCalculator.js';
 import { mountMinusCalculator } from './MinusCalculator.js';
 import { mountMultiplyCalculator } from './MultiplyCalculator.js';
+import { mountDivideCalculator } from './DivideCalculator.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
 
@@ -64,3 +65,6 @@ mountMinusCalculator(app);
 
 // Homepage multiplication calculator: POST /multiply and render the product.
 mountMultiplyCalculator(app);
+
+// Homepage division calculator: POST /divide and render the quotient.
+mountDivideCalculator(app);
