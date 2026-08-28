@@ -29,6 +29,10 @@ export default defineConfig({
         target: 'http://localhost:3008',
         changeOrigin: true,
       },
+      '/count-characters': {
+        target: 'http://localhost:3008',
+        changeOrigin: true,
+      },
     },
   },
 });
