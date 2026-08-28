@@ -3,6 +3,7 @@ import { mountPlusCalculator } from './PlusCalculator.js';
 import { mountMinusCalculator } from './MinusCalculator.js';
 import { mountMultiplyCalculator } from './MultiplyCalculator.js';
 import { mountDivideCalculator } from './DivideCalculator.js';
+import { mountCountCharactersPage } from './CountCharactersPage.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
 
@@ -52,19 +53,49 @@ async function mountHealthStatus() {
   }
 }
 
-mountHealthStatus();
+function mountHomePage() {
+  mountHealthStatus();
 
-// User list page: fetches GET /api/users and renders each user name.
-mountUserList(app);
+  // User list page: fetches GET /api/users and renders each user name.
+  mountUserList(app);
 
-// Homepage addition calculator: POST /plus and render the sum.
-mountPlusCalculator(app);
+  // Homepage addition calculator: POST /plus and render the sum.
+  mountPlusCalculator(app);
 
-// Homepage subtraction calculator: POST /minus and render the difference.
-mountMinusCalculator(app);
+  // Homepage subtraction calculator: POST /minus and render the difference.
+  mountMinusCalculator(app);
 
-// Homepage multiplication calculator: POST /multiply and render the product.
-mountMultiplyCalculator(app);
+  // Homepage multiplication calculator: POST /multiply and render the product.
+  mountMultiplyCalculator(app);
 
-// Homepage division calculator: POST /divide and render the quotient.
-mountDivideCalculator(app);
+  // Homepage division calculator: POST /divide and render the quotient.
+  mountDivideCalculator(app);
+}
+
+/**
+ * Resolve the current hash route.
+ * Supports `#/count-characters` (and `#count-characters` as a fallback).
+ * @returns {'count-characters' | 'home'}
+ */
+function getRoute() {
+  const hash = window.location.hash.slice(1).replace(/^\//, '');
+  if (hash === 'count-characters') {
+    return 'count-characters';
+  }
+  return 'home';
+}
+
+function renderRoute() {
+  const route = getRoute();
+
+  if (route === 'count-characters') {
+    app.innerHTML = '';
+    mountCountCharactersPage(app);
+    return;
+  }
+
+  mountHomePage();
+}
+
+window.addEventListener('hashchange', renderRoute);
+renderRoute();
