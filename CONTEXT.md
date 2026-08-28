@@ -15,7 +15,9 @@ testing_AI_Agent_Frontend/
 ├── vite.config.js
 ├── CONTEXT.md
 └── src/
-    └── main.js
+    ├── main.js
+    ├── MinusCalculator.js
+    └── MultiplyCalculator.js
 ```
 
 ## Conventions
@@ -24,17 +26,30 @@ testing_AI_Agent_Frontend/
 - **Build**: Vite (`npm run dev` / `npm run build`).
 - **API client**: `fetch` against `VITE_API_BASE` (default `http://localhost:3008`). Expect JSON bodies; do not invent field names — use the contract response schema.
 - **Naming**: flat `src/` files; UI states map 1:1 to contract `frontend.uiStates`.
+- **Forms**: submit via `event.preventDefault()`; validate inputs before sending.
 
 ## API Surface (client)
 
 - Base URL from `import.meta.env.VITE_API_BASE`.
 - Call the same paths as the backend contract (e.g. `GET /health` → `{ "status": "ok" }`).
 - Render contract field names exactly (`status`, not `healthStatus`, unless the contract says otherwise).
+- `POST /minus` with body `{ a: number, b: number }` → `{ result: number }` (difference `a - b`).
+- `POST /multiply` with body `{ a: number, b: number }` → `{ result: number }` (product `a * b`).
 
 ## Key Modules
 
-- `src/main.js` — mounts `#app` and is the place to add fetch + render for new UI states.
+- `src/main.js` — mounts `#app` and wires up all UI states (homepage: `mountUserList`, `mountPlusCalculator`, `mountMinusCalculator`, `mountMultiplyCalculator`).
+- `src/MinusCalculator.js` — subtraction calculator component. Renders two number inputs (A and B), a "Minus" button, and a result area. Validates inputs client-side, sends `POST /minus`, and displays the `result` field or an error message.
+- `src/MultiplyCalculator.js` — multiplication calculator component. Renders two number inputs (A and B), a "Multiply" button, and a result area. Validates inputs client-side, sends `POST /multiply`, and displays the `result` field or an error message.
 
 ## Testing
 
 No test runner yet. Manual: `npm run dev` and verify the UI against a running backend.
+
+## Ticket
+Title: Add minus endpoint and UI
+Requirements:
+Add POST /multiply on backend with validation and tests. Frontend: two number inputs and a button that calls /multiply and shows the result.
+
+## Merged PR
+https://github.com/oaymohsin/testing_AI_Agent_Frontend/pull/5
