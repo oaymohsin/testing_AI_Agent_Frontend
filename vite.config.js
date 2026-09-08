@@ -33,6 +33,10 @@ export default defineConfig({
         target: 'http://localhost:3008',
         changeOrigin: true,
       },
+      '/factorial': {
+        target: 'http://localhost:3008',
+        changeOrigin: true,
+      },
     },
   },
 });

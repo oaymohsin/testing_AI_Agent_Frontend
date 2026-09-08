@@ -3,6 +3,7 @@ import { mountPlusCalculator } from './PlusCalculator.js';
 import { mountMinusCalculator } from './MinusCalculator.js';
 import { mountMultiplyCalculator } from './MultiplyCalculator.js';
 import { mountDivideCalculator } from './DivideCalculator.js';
+import { mountFactorialCalculator } from './FactorialCalculator.js';
 import { mountCountCharactersPage } from './CountCharactersPage.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
@@ -70,6 +71,9 @@ function mountHomePage() {
 
   // Homepage division calculator: POST /divide and render the quotient.
   mountDivideCalculator(app);
+
+  // Homepage factorial calculator: POST /factorial and render the result.
+  mountFactorialCalculator(app);
 }
 
 /**
