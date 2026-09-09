@@ -5,6 +5,7 @@ import { mountMultiplyCalculator } from './MultiplyCalculator.js';
 import { mountDivideCalculator } from './DivideCalculator.js';
 import { mountFactorialCalculator } from './FactorialCalculator.js';
 import { mountCountCharactersPage } from './CountCharactersPage.js';
+import { mountTodayDateTimePage } from './TodayDateTimePage.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
 
@@ -74,17 +75,52 @@ function mountHomePage() {
 
   // Homepage factorial calculator: POST /factorial and render the result.
   mountFactorialCalculator(app);
+
+  app.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <nav class="home-nav" aria-label="App navigation">
+      <a href="#/todaydatetime" class="home-nav-link">Today Date Time</a>
+    </nav>
+    <style>
+      .home-nav {
+        max-width: 36rem;
+        margin: 1.5rem auto 0;
+        padding: 0 1rem;
+        font-family: system-ui, sans-serif;
+      }
+
+      .home-nav-link {
+        display: inline-block;
+        padding: 0.625rem 1.25rem;
+        border-radius: 0.5rem;
+        background: #2563eb;
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .home-nav-link:hover {
+        background: #1d4ed8;
+      }
+    </style>
+  `,
+  );
 }
 
 /**
  * Resolve the current hash route.
- * Supports `#/count-characters` (and `#count-characters` as a fallback).
- * @returns {'count-characters' | 'home'}
+ * Supports `#/count-characters` (and `#count-characters` as a fallback),
+ * and `#/todaydatetime` (and `#todaydatetime` as a fallback).
+ * @returns {'count-characters' | 'todaydatetime' | 'home'}
  */
 function getRoute() {
   const hash = window.location.hash.slice(1).replace(/^\//, '');
   if (hash === 'count-characters') {
     return 'count-characters';
+  }
+  if (hash === 'todaydatetime') {
+    return 'todaydatetime';
   }
   return 'home';
 }
@@ -95,6 +131,12 @@ function renderRoute() {
   if (route === 'count-characters') {
     app.innerHTML = '';
     mountCountCharactersPage(app);
+    return;
+  }
+
+  if (route === 'todaydatetime') {
+    app.innerHTML = '';
+    mountTodayDateTimePage(app);
     return;
   }
 
