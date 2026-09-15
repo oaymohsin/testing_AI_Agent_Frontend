@@ -58,6 +58,17 @@ All requests use `fetch(\`${API_BASE}<path>\`, …)` with JSON where noted. Resp
 | `mountTodayDateTimePage` | GET | `/todaydatetime` | — | `datetime` |
 | `mountPowerCalculator` | POST | `/power` | `a`, `b` | `result`, `error` (400) |
 
+## POST requests and client validation
+
+Calculator and form modules send POST bodies with `Content-Type: application/json` and `JSON.stringify` for the contract field names (`a`, `b`, `n`, `text`, etc.).
+
+Binary-operand calculators (`PlusCalculator`, `MinusCalculator`, `MultiplyCalculator`, `DivideCalculator`, `PowerCalculator`) follow the same client-side checks as `src/PlusCalculator.js` before calling the backend:
+
+1. Parse inputs with `Number(...)`.
+2. Reject empty trimmed strings with a local message.
+3. Require `Number.isFinite(a)` and `Number.isFinite(b)` (divide also rejects `b === 0` locally).
+4. On HTTP 400, read JSON when possible and display the backend `error` string without renaming it; on success, display `result` (or `count` / `datetime` on other pages).
+
 ## Vite dev workflow
 
 - Start the backend on port **3008** (separate `testing-ai-agent` repo).
@@ -74,7 +85,8 @@ When using the dev server, set `VITE_API_BASE` empty or to the dev origin so pro
 3. Click **Today Date Time** → `#/todaydatetime`; use **Get Date time** and confirm `datetime` appears.
 4. Navigate to `#/count-characters`, submit text, confirm `count` or validation `error`.
 5. Navigate to `#/power`, submit `a` and `b`, confirm `result` or `error`.
-6. Return to `#/` (home) and exercise each calculator form against the backend.
+6. Return to `#/` (home). Submit **Subtraction Calculator** (POST `/minus`) and **Multiplication Calculator** (POST `/multiply`) with valid operands and confirm `result` appears; submit invalid operands and confirm the UI shows the backend `error` JSON field (not renamed) or a network/unreachable message.
+7. Exercise the remaining home calculators (plus, divide, factorial) against the backend.
 
 ## Environment
 

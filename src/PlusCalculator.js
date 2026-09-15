@@ -67,7 +67,16 @@ export function mountPlusCalculator(el) {
       });
 
       if (res.status === 400) {
-        resultEl.textContent = 'Error: invalid input. Both A and B must be numbers.';
+        let message = 'Error: invalid input. Both A and B must be numbers.';
+        try {
+          const errData = await res.json();
+          if (typeof errData.error === 'string' && errData.error.trim() !== '') {
+            message = `Error: ${errData.error}`;
+          }
+        } catch {
+          // Non-JSON 400 body; fall back to the generic message.
+        }
+        resultEl.textContent = message;
         return;
       }
       if (!res.ok) {
