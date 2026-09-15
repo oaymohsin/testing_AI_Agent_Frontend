@@ -16,7 +16,7 @@ const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
  * @param {HTMLElement} el mount point
  */
 export function mountMultiplyCalculator(el) {
-  el.innerHTML = `
+  el.insertAdjacentHTML('beforeend', `
     <section id="multiply-calculator" aria-label="Multiplication calculator">
       <h2>Multiplication Calculator</h2>
       <form id="multiply-form">
@@ -32,7 +32,7 @@ export function mountMultiplyCalculator(el) {
       </form>
       <div id="multiply-result" aria-live="polite"></div>
     </section>
-  `;
+  `);
 
   const form = el.querySelector('#multiply-form');
   const inputA = el.querySelector('#multiply-a');
