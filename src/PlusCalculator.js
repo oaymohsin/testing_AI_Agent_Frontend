@@ -16,7 +16,7 @@ const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
  * @param {HTMLElement} el mount point
  */
 export function mountPlusCalculator(el) {
-  el.innerHTML = `
+  el.insertAdjacentHTML('beforeend', `
     <section id="plus-calculator" aria-label="Addition calculator">
       <h2>Addition Calculator</h2>
       <form id="plus-form">
@@ -32,7 +32,7 @@ export function mountPlusCalculator(el) {
       </form>
       <div id="plus-result" aria-live="polite"></div>
     </section>
-  `;
+  `);
 
   const form = el.querySelector('#plus-form');
   const inputA = el.querySelector('#plus-a');
@@ -67,7 +67,16 @@ export function mountPlusCalculator(el) {
       });
 
       if (res.status === 400) {
-        resultEl.textContent = 'Error: invalid input. Both A and B must be numbers.';
+        let message = 'Error: invalid input. Both A and B must be numbers.';
+        try {
+          const errData = await res.json();
+          if (typeof errData.error === 'string' && errData.error.trim() !== '') {
+            message = `Error: ${errData.error}`;
+          }
+        } catch {
+          // Non-JSON 400 body; fall back to the generic message.
+        }
+        resultEl.textContent = message;
         return;
       }
       if (!res.ok) {

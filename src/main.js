@@ -6,6 +6,7 @@ import { mountDivideCalculator } from './DivideCalculator.js';
 import { mountFactorialCalculator } from './FactorialCalculator.js';
 import { mountCountCharactersPage } from './CountCharactersPage.js';
 import { mountTodayDateTimePage } from './TodayDateTimePage.js';
+import { mountPowerCalculator } from './PowerCalculator.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
 
@@ -18,16 +19,18 @@ const app = document.querySelector('#app');
  * loading placeholder while the request is in flight, the status value on
  * success, and an error message if the request fails.
  */
-async function mountHealthStatus() {
-  // Replace the shell with the targeted component view.
-  app.innerHTML = `
-    <main>
+async function mountHealthStatus(el) {
+  el.insertAdjacentHTML(
+    'beforeend',
+    `
+    <main id="health-status">
       <h1>Health check</h1>
       <div id="health-result" aria-live="polite"></div>
     </main>
-  `;
+  `,
+  );
 
-  const resultEl = document.querySelector('#health-result');
+  const resultEl = el.querySelector('#health-result');
 
   // Loading state while the request is in flight.
   resultEl.textContent = 'Checking health...';
@@ -56,25 +59,7 @@ async function mountHealthStatus() {
 }
 
 function mountHomePage() {
-  mountHealthStatus();
-
-  // User list page: fetches GET /api/users and renders each user name.
-  mountUserList(app);
-
-  // Homepage addition calculator: POST /plus and render the sum.
-  mountPlusCalculator(app);
-
-  // Homepage subtraction calculator: POST /minus and render the difference.
-  mountMinusCalculator(app);
-
-  // Homepage multiplication calculator: POST /multiply and render the product.
-  mountMultiplyCalculator(app);
-
-  // Homepage division calculator: POST /divide and render the quotient.
-  mountDivideCalculator(app);
-
-  // Homepage factorial calculator: POST /factorial and render the result.
-  mountFactorialCalculator(app);
+  app.innerHTML = '';
 
   app.insertAdjacentHTML(
     'afterbegin',
@@ -106,13 +91,33 @@ function mountHomePage() {
     </style>
   `,
   );
+
+  mountHealthStatus(app);
+
+  // User list page: fetches GET /api/users and renders each user name.
+  mountUserList(app);
+
+  // Homepage addition calculator: POST /plus and render the sum.
+  mountPlusCalculator(app);
+
+  // Homepage subtraction calculator: POST /minus and render the difference.
+  mountMinusCalculator(app);
+
+  // Homepage multiplication calculator: POST /multiply and render the product.
+  mountMultiplyCalculator(app);
+
+  // Homepage division calculator: POST /divide and render the quotient.
+  mountDivideCalculator(app);
+
+  // Homepage factorial calculator: POST /factorial and render the result.
+  mountFactorialCalculator(app);
 }
 
 /**
  * Resolve the current hash route.
  * Supports `#/count-characters` (and `#count-characters` as a fallback),
  * and `#/todaydatetime` (and `#todaydatetime` as a fallback).
- * @returns {'count-characters' | 'todaydatetime' | 'home'}
+ * @returns {'count-characters' | 'todaydatetime' | 'power' | 'home'}
  */
 function getRoute() {
   const hash = window.location.hash.slice(1).replace(/^\//, '');
@@ -121,6 +126,9 @@ function getRoute() {
   }
   if (hash === 'todaydatetime') {
     return 'todaydatetime';
+  }
+  if (hash === 'power') {
+    return 'power';
   }
   return 'home';
 }
@@ -137,6 +145,12 @@ function renderRoute() {
   if (route === 'todaydatetime') {
     app.innerHTML = '';
     mountTodayDateTimePage(app);
+    return;
+  }
+
+  if (route === 'power') {
+    app.innerHTML = '';
+    mountPowerCalculator(app);
     return;
   }
 

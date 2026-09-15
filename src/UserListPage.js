@@ -16,12 +16,12 @@ const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
  * @param {AbortSignal} signal abort signal for the in-flight request
  */
 export async function mountUserList(el, signal) {
-  el.innerHTML = `
+  el.insertAdjacentHTML('beforeend', `
     <section>
       <h1>Users</h1>
       <ul id="user-list" aria-live="polite"></ul>
     </section>
-  `;
+  `);
 
   const listEl = el.querySelector('#user-list');
 

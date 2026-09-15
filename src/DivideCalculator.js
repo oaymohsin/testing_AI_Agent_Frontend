@@ -17,7 +17,7 @@ const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
  * @param {HTMLElement} el mount point
  */
 export function mountDivideCalculator(el) {
-  el.innerHTML = `
+  el.insertAdjacentHTML('beforeend', `
     <section id="divide-calculator" aria-label="Division calculator">
       <h2>Division Calculator</h2>
       <form id="divide-form">
@@ -33,7 +33,7 @@ export function mountDivideCalculator(el) {
       </form>
       <div id="divide-result" aria-live="polite"></div>
     </section>
-  `;
+  `);
 
   const form = el.querySelector('#divide-form');
   const inputA = el.querySelector('#divide-a');
