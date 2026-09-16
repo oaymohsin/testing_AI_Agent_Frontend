@@ -41,6 +41,10 @@ export default defineConfig({
         target: 'http://localhost:3008',
         changeOrigin: true,
       },
+      '/power': {
+        target: 'http://localhost:3008',
+        changeOrigin: true,
+      },
     },
   },
 });

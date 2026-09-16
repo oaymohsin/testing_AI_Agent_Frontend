@@ -6,6 +6,7 @@ import { mountDivideCalculator } from './DivideCalculator.js';
 import { mountFactorialCalculator } from './FactorialCalculator.js';
 import { mountCountCharactersPage } from './CountCharactersPage.js';
 import { mountTodayDateTimePage } from './TodayDateTimePage.js';
+import { mountPowerCalculator } from './PowerCalculator.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3008';
 
@@ -112,7 +113,7 @@ function mountHomePage() {
  * Resolve the current hash route.
  * Supports `#/count-characters` (and `#count-characters` as a fallback),
  * and `#/todaydatetime` (and `#todaydatetime` as a fallback).
- * @returns {'count-characters' | 'todaydatetime' | 'home'}
+ * @returns {'count-characters' | 'todaydatetime' | 'power' | 'home'}
  */
 function getRoute() {
   const hash = window.location.hash.slice(1).replace(/^\//, '');
@@ -121,6 +122,9 @@ function getRoute() {
   }
   if (hash === 'todaydatetime') {
     return 'todaydatetime';
+  }
+  if (hash === 'power') {
+    return 'power';
   }
   return 'home';
 }
@@ -137,6 +141,12 @@ function renderRoute() {
   if (route === 'todaydatetime') {
     app.innerHTML = '';
     mountTodayDateTimePage(app);
+    return;
+  }
+
+  if (route === 'power') {
+    app.innerHTML = '';
+    mountPowerCalculator(app);
     return;
   }
 
